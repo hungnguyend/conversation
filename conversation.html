@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="demo">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+<!-- <script src="js/controller.js"></script> -->
+
+<script>
+angular.module('demo', [])
+.controller('Hello', function($scope, $http) {
+
+   $scope.persons = [];
+   $scope.person = {};
+
+   $scope.fetchPeople = function () {
+     $http.get('http://srvgal113.deri.ie:8030/api/people').
+         then(function(response) {
+          $scope.persons = response.data;
+        //  $scope.persons.push({id:-1, name:"Others"});
+         });
+   }
+   $scope.fetchPeople();
+
+  $scope.selectPeople = function() {
+    console.log('selectPe:' + $scope.person);
+  }
+});
+
+</script>
+<body>
+
+
+<div>
+  <form>
+
+    <select class="form-control" id="field_" name="person" ng-model="person" ng-options="person.name for person in persons" ng-change = "selectPeople()" required>
+    <option value="">-- Select People --</option>
+  </select>
+
+	</div><br><br>
+
+    <div id="demo_jui">
+	    <button id="btnAddNewRow" value="Ok">Add new conversation...</button>
+	    <button id="btnDeleteRow" value="cancel">Delete selected conversation</button>
+	    <table id="conversations" class="display">
+		            <thead>
+		                <tr>
+		                	<th>ID</th>
+		                    <th>Conversation Text</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+
+		            </tbody>
+		        </table>
+	</div>
+
+
+
+  </form>
+  <h3>User is selected: {{userSelect}}</h3>
+</div>
+
+<p>Select the name inside the input field.</p>
+
+</body>
+</html>
